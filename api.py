@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pandas as pd
@@ -25,9 +25,15 @@ app.add_middleware(
         "http://127.0.0.1:5174",
         "https://resqai-command-center.netlify.app"
     ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
+@app.options("/analyze")
+async def analyze_options():
+    return Response(status_code=200)
 # ============================================
 # LOAD DATA
 # ============================================
